@@ -36,8 +36,13 @@ export default function Layout({
       <header className={layoutStyle.header}>
         {home ? (
           <>
-            <Image src={"/images/yoda.jpeg"} width={100} height={100} />
-            <h1 className={utilStyle.heading2XL}>{name}</h1>
+            <Image
+              src={"/images/yoda.jpeg"}
+              className={utilStyle.borderCircle}
+              width={100}
+              height={100}
+            />
+            <h1 className={utilStyle.heading2Xl}>{name}</h1>
           </>
         ) : (
           <>
