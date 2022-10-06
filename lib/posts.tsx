@@ -4,7 +4,7 @@ import path from "path";
 
 const postDirectory = path.join(process.cwd(), "posts");
 
-export const getSortedPostData = () => {
+export const getSortedPostData = (): any[] => {
   const fileNames = readdirSync(postDirectory);
   const allPostData: any[] = fileNames.map((tempFileName) => {
     const id = tempFileName.replace(/\.md$/, "");

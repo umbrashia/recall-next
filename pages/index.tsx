@@ -1,8 +1,11 @@
+import { log } from "console";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Layout, { siteTitle } from "../components/layout";
+import { getSortedPostData } from "../lib/posts";
+import utilStyles from "../styles/utils.module.css";
 
-const Home: NextPage = () => {
+const Home: NextPage<{ allPostsData: any[] }> = ({ allPostsData }) => {
   return (
     <Layout home>
       <Head>
@@ -23,10 +26,33 @@ const Home: NextPage = () => {
         </p>
         .)
       </section>
+      <section className={`${utilStyles.headingMd}`}>
+        <h2 className={`${utilStyles.headingLg}`}></h2>
+        <ul className={`${utilStyles.list}`}>
+          {allPostsData.map((el, key) => (
+            <li key={key}>
+              {el.title}
+              <br />
+              {el.id}
+              <br />
+              {el.date}
+              <br />
+              <br />
+            </li>
+          ))}
+        </ul>
+      </section>
     </Layout>
   );
 };
 
-export const getStaticProps = async () => {};
+export const getStaticProps = async (): Promise<any[]> => {
+  const allPostsData = getSortedPostData();
+  return {
+    props: {
+      allPostsData,
+    },
+  } as any;
+};
 
 export default Home;
