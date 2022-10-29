@@ -2,10 +2,13 @@ import { log } from "console";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Layout, { siteTitle } from "../components/layout";
-import { getSortedPostData } from "../lib/posts";
+import { getNewActors, getSortedPostData } from "../lib/posts";
 import utilStyles from "../styles/utils.module.css";
 
-const Home: NextPage<{ allPostsData: any[] }> = ({ allPostsData }) => {
+const Home: NextPage<{ allPostsData: any[]; actors: Array<any> }> = ({
+  allPostsData,
+  actors,
+}) => {
   return (
     <Layout home>
       <Head>
@@ -42,15 +45,30 @@ const Home: NextPage<{ allPostsData: any[] }> = ({ allPostsData }) => {
           ))}
         </ul>
       </section>
+      <section>
+        <h2>actors list</h2>
+        <div>
+          <ul>
+            {actors.map((el, key) => (
+              <li>
+                {el.actor_id} : {el.first_name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
     </Layout>
   );
 };
 
 export const getStaticProps = async (): Promise<any[]> => {
   const allPostsData = getSortedPostData();
+  const actors = await getNewActors();
+  log(actors);
   return {
     props: {
       allPostsData,
+      actors,
     },
   } as any;
 };

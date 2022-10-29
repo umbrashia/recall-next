@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync } from "fs";
 import matter from "gray-matter";
 import path from "path";
+import prisma from "./prisma";
 
 const postDirectory = path.join(process.cwd(), "posts");
 
@@ -28,3 +29,11 @@ export const getSortedPostData = (): any[] => {
     }
   });
 };
+
+export async function getNewActors(): Promise<any> {
+  const data = await prisma.actor.findMany({
+    select: { actor_id: true, first_name: true },
+    take: 10,
+  });
+  return data;
+}
