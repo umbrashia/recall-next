@@ -1,6 +1,7 @@
 import { log } from "console";
 import type { NextPage } from "next";
 import Head from "next/head";
+import Link from "next/link";
 import Layout, { siteTitle } from "../components/layout";
 import { getNewActors, getSortedPostData } from "../lib/posts";
 import utilStyles from "../styles/utils.module.css";
@@ -37,6 +38,9 @@ const Home: NextPage<{ allPostsData: any[]; actors: Array<any> }> = ({
               {el.title}
               <br />
               {el.id}
+              <a className={utilStyles.openLink}>
+                <Link href={`posts/${el.id}`}>Open post...</Link>
+              </a>
               <br />
               {el.date}
               <br />
@@ -51,7 +55,8 @@ const Home: NextPage<{ allPostsData: any[]; actors: Array<any> }> = ({
           <ul>
             {actors.map((el, key) => (
               <li>
-                {el.actor_id} : {el.first_name}
+                {el.actor_id} : {el.first_name} --
+                <Link href={`actor-films/${el.actor_id}`}>open data</Link>
               </li>
             ))}
           </ul>
@@ -61,16 +66,25 @@ const Home: NextPage<{ allPostsData: any[]; actors: Array<any> }> = ({
   );
 };
 
-export const getStaticProps = async (): Promise<any[]> => {
+// export const getStaticProps = async (): Promise<any[]> => {
+//   const allPostsData = getSortedPostData();
+//   const actors = await getNewActors();
+//   return {
+//     props: {
+//       allPostsData,
+//     },
+//   } as any;
+// };
+
+export async function getServerSideProps(context: any) {
   const allPostsData = getSortedPostData();
   const actors = await getNewActors();
-  log(actors);
   return {
     props: {
       allPostsData,
       actors,
     },
   } as any;
-};
+}
 
 export default Home;

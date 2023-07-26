@@ -64,6 +64,19 @@ export default function Layout({
             </h2>
           </>
         )}
+        <section style={{ alignSelf: "stretch" }}>
+          <ul className={layoutStyle.navstyle}>
+            <li>
+              <Link href={"/"}>Home</Link>
+            </li>
+            <li>
+              <Link href={"/posts/first-post"}>First Post</Link>
+            </li>
+            <li>
+              <Link href={"/authors/me"}>Authors My</Link>
+            </li>
+          </ul>
+        </section>
       </header>
       <main>{children}</main>
       {!home && (

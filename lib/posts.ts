@@ -30,10 +30,39 @@ export const getSortedPostData = (): any[] => {
   });
 };
 
+export async function getPostData(id: any | string) {
+  const fullPath = path.join(postDirectory, `${id}.md`);
+  const fileContents = readFileSync(fullPath, "utf8");
+  const matterResult = matter(fileContents);
+  return {
+    id,
+    ...matterResult.data,
+  };
+}
+
+export async function getAllPostIds() {
+  const fileNames = readdirSync(postDirectory);
+
+  return fileNames.map((fileName) => {
+    return {
+      params: {
+        id: fileName.replace(/\.md$/, ""),
+      },
+    };
+  });
+}
+
 export async function getNewActors(): Promise<any> {
   const data = await prisma.actor.findMany({
     select: { actor_id: true, first_name: true },
     take: 10,
   });
   return data;
+}
+
+export async function getActorFilms(id: string): Promise<Array<any>> {
+  return await prisma.film_actor.findMany({
+    where: { actor_id: parseInt(id) },
+    include: { film: true },
+  });
 }

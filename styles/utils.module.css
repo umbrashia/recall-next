@@ -42,3 +42,7 @@
 .lightText {
   color: #666;
 }
+.openLink {
+  color: blue;
+  cursor: pointer;
+}
